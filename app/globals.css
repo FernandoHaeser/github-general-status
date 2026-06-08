@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #00ff41;
+  --green-dim: #00c030;
+  --cyan: #00e5ff;
+  --yellow: #ffd700;
+  --purple: #b388ff;
+  --red: #ff4444;
+  --blue: #58a6ff;
+  --bg: #0d1117;
+  --card: #0a0f1a;
+  --border: #1e2a3a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: #ffffff;
+  font-family: var(--font-pixel), monospace;
+  font-size: 10px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  /* CRT phosphor glow effect */
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.15);
+}
+
+/* ── Scanline overlay ── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Pixel border utility ── */
+.pixel-border {
+  border: 3px solid var(--green);
+  box-shadow:
+    0 0 0 1px var(--bg),
+    0 0 12px rgba(0, 255, 65, 0.25),
+    inset 0 0 12px rgba(0, 255, 65, 0.05);
+}
+
+.pixel-border-blue {
+  border: 3px solid var(--blue);
+  box-shadow:
+    0 0 0 1px var(--bg),
+    0 0 12px rgba(88, 166, 255, 0.25),
+    inset 0 0 12px rgba(88, 166, 255, 0.05);
+}
+
+.pixel-border-yellow {
+  border: 3px solid var(--yellow);
+  box-shadow:
+    0 0 0 1px var(--bg),
+    0 0 12px rgba(255, 215, 0, 0.25),
+    inset 0 0 12px rgba(255, 215, 0, 0.05);
+}
+
+.pixel-border-purple {
+  border: 3px solid var(--purple);
+  box-shadow:
+    0 0 0 1px var(--bg),
+    0 0 12px rgba(179, 136, 255, 0.25),
+    inset 0 0 12px rgba(179, 136, 255, 0.05);
+}
+
+/* ── Blinking cursor ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ── Pixel corner decoration ── */
+.corner-tl::before,
+.corner-tr::after {
+  content: "▓";
+  position: absolute;
+  color: var(--green);
+  font-size: 8px;
+  opacity: 0.6;
+}
+
+.corner-tl::before { top: 4px; left: 4px; }
+.corner-tr::after  { top: 4px; right: 4px; }
+
+/* ── Progress bar fill animation ── */
+@keyframes fillBar {
+  from { width: 0% !important; }
+  to   { width: var(--bar-width); }
+}
+
+.bar-fill {
+  animation: fillBar 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  width: 0%;
+}
+
+/* ── Slide-in entrance ── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+/* ── Screen flicker (applied once on load) ── */
+@keyframes bootFlicker {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  12%  { opacity: 0.2; }
+  14%  { opacity: 1; }
+  16%  { opacity: 0.5; }
+  18%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.boot-flicker {
+  animation: bootFlicker 0.8s ease-out forwards;
+}
+
+/* ── Glow text ── */
+.glow-green { text-shadow: 0 0 8px var(--green), 0 0 20px rgba(0, 255, 65, 0.4); }
+.glow-blue  { text-shadow: 0 0 8px var(--blue),  0 0 20px rgba(88, 166, 255, 0.4); }
+.glow-yellow { text-shadow: 0 0 8px var(--yellow), 0 0 20px rgba(255, 215, 0, 0.4); }
+
+/* ── Moving scan line ── */
+@keyframes scanMove {
+  0%   { top: -10%; }
+  100% { top: 110%; }
+}
+
+.scan-line {
+  position: fixed;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 255, 65, 0.06),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 9998;
+  animation: scanMove 6s linear infinite;
+}
+
+/* ── Pixelated images ── */
+.pixel-img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Responsive player grid ── */
+@media (max-width: 700px) {
+  .player-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--green-dim);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--green); }
+
+/* ── Hover lift effect for cards ── */
+.card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 3px var(--green),
+    0 0 24px rgba(0, 255, 65, 0.35);
+}
+
+/* ── Dashed divider ── */
+.pixel-divider {
+  border: none;
+  border-top: 2px dashed rgba(0, 255, 65, 0.2);
+  margin: 0;
+}
+
+/* ── Repo card hover (CSS-only, no JS event handlers) ── */
+.repo-card {
+  border: 2px solid #21262d;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.repo-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 14px rgba(0, 255, 65, 0.2);
+}
+
+/* ── Contact link hover ── */
+.contact-link {
+  transition: background 0.1s ease;
+  background: transparent;
+}
+.contact-link:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ── Trophy / badge row ── */
+.trophy-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
