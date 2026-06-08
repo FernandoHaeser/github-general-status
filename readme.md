@@ -1,5 +1,25 @@
 # gitflow
 
+## Demo
+
+Live: https://github-general-status.vercel.app
+
+## GitHub README Embed
+
+Add this to any GitHub README to embed a live stats card:
+
+```markdown
+<img src="https://github-general-status.vercel.app/api/svg" alt="FernandoHaeser GitHub Stats" />
+```
+
+Or with HTML for size control:
+
+```html
+<img src="https://github-general-status.vercel.app/api/svg" width="495" alt="FernandoHaeser GitHub Stats" />
+```
+
+The card auto-updates every 6 hours and includes: stats, top languages with animated bars, and XP progress.
+
 A implementation of workflows of GitHub Actions to support using gitflow on GitHub with branch protection rules and managing changelog.md.
 
 ## install

@@ -1,25 +1,18 @@
 import type { Metadata } from "next";
-import { Press_Start_2P, VT323 } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const pressStart = Press_Start_2P({
-  weight: "400",
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-pixel",
-});
-
-const vt323 = VT323({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-vt",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "FernandoHaeser // STATS.EXE",
-  description: "GitHub stats dashboard – 8-bit edition",
+  title: "FernandoHaeser · GitHub Stats",
+  description: "GitHub stats and activity for FernandoHaeser",
   openGraph: {
-    title: "FernandoHaeser // STATS.EXE",
-    description: "GitHub stats dashboard – 8-bit edition",
+    title: "FernandoHaeser · GitHub Stats",
+    description: "GitHub stats and activity for FernandoHaeser",
     type: "website",
   },
 };
@@ -27,9 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${pressStart.variable} ${vt323.variable}`}>
-        {children}
-      </body>
+      <body className={inter.variable}>{children}</body>
     </html>
   );
 }
